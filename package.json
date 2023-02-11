@@ -1,0 +1,26 @@
+{
+  "name": "gtasks-wrapper",
+  "version": "0.0.1",
+  "description": "Google Tasks wrapper",
+  "main": "main.js",
+  "scripts": {
+    "start": "ELECTRON_ENABLE_LOGGING=true electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "Marcelo Paixão Resende",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-rpm": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
+    "electron": "^23.0.0"
+  },
+  "dependencies": {
+    "darkreader": "^4.9.58",
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
