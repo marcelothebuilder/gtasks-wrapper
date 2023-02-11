@@ -25,4 +25,18 @@ module.exports = {
     //   config: {},
     // },
   ],
+
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'marcelothebuilder',
+          name: 'gtasks-wrapper'
+        },
+        prerelease: true
+      }
+    }
+  ]
+
 };
