@@ -6,7 +6,7 @@ const path = require('path');
 let isQuiting;
 let tray;
 
-const icon = nativeImage.createFromPath('resources/gtasks.png');
+const icon = nativeImage.createFromPath(path.join(__dirname, 'resources/gtasks.png'));
 
 const createWindow = () => {
 
