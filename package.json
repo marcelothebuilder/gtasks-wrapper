@@ -1,6 +1,6 @@
 {
   "name": "gtasks-wrapper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Google Tasks wrapper",
   "main": "main.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "darkreader": "^4.9.58",
+    "electron-json-storage": "^4.6.0",
     "electron-squirrel-startup": "^1.0.0"
   }
 }

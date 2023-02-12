@@ -1,10 +1,12 @@
 const { app, BrowserWindow, application } = require('electron')
 const { Tray, Menu, nativeImage } = require('electron')
 const path = require('path');
+const storage = require('electron-json-storage');
 
 
-let isQuiting;
 let tray;
+let isQuiting = false;
+let isStartingMinimized = false;
 
 const icon = nativeImage.createFromPath(path.join(__dirname, 'resources/gtasks.png'));
 
@@ -27,7 +29,7 @@ const createWindow = () => {
         width: 600,
         height: 600,
         darkTheme: true,
-        maxWidth: 600,
+        // maxWidth: 600,
         show: false,
         webPreferences: {
             contextIsolation: false,
@@ -36,18 +38,102 @@ const createWindow = () => {
         },
         maximizable: false,
         icon: icon,
-        fullscreenable: false,
-    })
+        fullscreenable: false
+    });
+
     win.once('ready-to-show', () => {
         setTimeout(() => splash.close(), 1000);
-        win.show();
+
+        new Promise((resolve, reject) => {
+            storage.get('isStartingMinimized', true, function (error, data) {
+                if (error) return reject(error);
+                return resolve(data);
+            });
+        })
+            .then(data => {
+                console.log("GOT DATA ========>", data);
+                if (data.value) {
+                    isStartingMinimized = true;
+                    console.log('MINIMIZING DATA ========>', data.value);
+                    // win.minimize();
+                } else {
+                    isStartingMinimized = false;
+                    console.log('SHOWING =>>>>>>>>>>>>>>>');
+                    win.show();
+                }
+                _refreshMenu(win);
+            })
+            .catch(error => {
+                console.log("ERROR =========>", error);
+            })
+
+        
     })
 
-    win.setMenuBarVisibility(false)
+    // win.setMenuBarVisibility(false)
 
     win.loadURL('https://tasks.google.com/embed/?origin=https://calendar.google.com&fullWidth=1&forcehl=1&usegapi=1');
 
     return win;
+}
+
+function _refreshMenu(win) {
+    win.setMenu(Menu.buildFromTemplate([
+        {
+            label: 'File',
+            submenu: [
+                {
+                    label: 'Quit',
+                    accelerator: 'CmdOrCtrl+Q',
+                    click: () => {
+                        app.quit();
+                    }
+                }
+            ]
+        },
+        {
+            label: 'Preferences',
+            submenu: [
+                _getStartingMinimizedSubmenu(win)
+            ]
+        }
+    ]));
+}
+
+function _getStartingMinimizedSubmenu(win) {
+    if (!isStartingMinimized) {
+        return {
+            label: 'Start minimized',
+            type: 'checkbox',
+            checked: false,
+            click: async () => {
+                isStartingMinimized = true;
+                await new Promise((resolve, reject) => {
+                    storage.set('isStartingMinimized', { value: true }, function (error) {
+                        if (error) return reject(error);
+                        return resolve();
+                    });
+                });
+                await _refreshMenu(win)
+            }
+        }
+    }
+
+    return {
+        label: 'Start minimized',
+        type: 'checkbox',
+        checked: true,
+        click: async () => {
+            isStartingMinimized = false;
+            await new Promise((resolve, reject) => {
+                storage.set('isStartingMinimized', { value: false }, function (error) {
+                    if (error) return reject(error);
+                    return resolve();
+                });
+            });
+            await _refreshMenu(win)
+        }
+    };
 }
 
 app.whenReady().then(() => {
