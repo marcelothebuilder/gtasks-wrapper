@@ -31,11 +31,11 @@ const createWindow = () => {
         darkTheme: true,
         // maxWidth: 600,
         show: false,
-        webPreferences: {
-            contextIsolation: false,
-            nodeIntegration: true,
-            preload: path.join(__dirname, 'inject.js')
-        },
+        // webPreferences: {
+        //     contextIsolation: false,
+        //     nodeIntegration: true,
+        //     preload: path.join(__dirname, 'inject.js')
+        // },
         maximizable: false,
         icon: icon,
         fullscreenable: false
