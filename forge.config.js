@@ -1,6 +1,8 @@
 module.exports = {
   packagerConfig: {
-    icon: 'resources/gtasks'
+    icon: 'resources/gtasks',
+    name: 'Gtasks',
+    executableName: 'gtasks-wrapper',
   },
   rebuildConfig: {},
   makers: [
@@ -16,8 +18,8 @@ module.exports = {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
-          icon: 'resources/gtasks.png'
-        }
+          icon: 'resources/gtasks.png',
+        },
       },
     },
     // {
@@ -32,11 +34,11 @@ module.exports = {
       config: {
         repository: {
           owner: 'marcelothebuilder',
-          name: 'gtasks-wrapper'
+          name: 'gtasks-wrapper',
         },
-        prerelease: true
-      }
-    }
-  ]
+        prerelease: true,
+      },
+    },
+  ],
 
 };
