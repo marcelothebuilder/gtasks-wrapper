@@ -11,6 +11,9 @@
 ## Usage
 
 ```sh
+# https://github.com/electron/electron/issues/17972
+sudo chown root node_modules/electron/dist/chrome-sandbox
+sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 npm run start
 ```
 
